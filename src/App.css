@@ -1,0 +1,76 @@
+#root {
+  --clr-white: rgb(255, 255, 255);
+  --clr-dark-navy: rgb(7, 7, 36);
+
+  --clr-dark-grey: rgb(56, 56, 79);
+  --clr-light-grey: rgb(131, 131, 145);
+
+  --clr-mercury: rgb(65, 158, 187);
+  --clr-venus: rgb(237, 162, 73);
+  --clr-earth: rgb(109, 46, 213);
+  --clr-mars: rgb(209, 76, 50);
+  --clr-jupiter: rgb(216, 58, 52);
+  --clr-saturn: rgb(205, 81, 32);
+  --clr-uranus: rgb(30, 193, 162);
+  --clr-neptune: rgb(45, 104, 240);
+
+  --ff-primary: Antonio;
+  --ff-secondary: Spartan;
+
+  --fw-regular: 400;
+  --fw-bold: 700;
+
+  --fs-300: 11px;
+  --fs-400: 12px;
+  --fs-500: 14px;
+  --fs-600: 40px;
+  --fs-700: 80px;
+}
+
+/* Resets */
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  background-color: var(--clr-dark-navy);
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
