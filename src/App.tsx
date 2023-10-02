@@ -72,7 +72,10 @@ function App() {
                     {planet}
                   </NavLink>
                 </div>
-                <img  className="primary-nav__img" src={'/src/assets/icon-chevron.svg'} />
+                <img
+                  className="primary-nav__img"
+                  src={'/src/assets/icon-chevron.svg'}
+                />
               </li>
             ))}
           </ul>
@@ -82,9 +85,7 @@ function App() {
         <Route path="/" element={<Navigate to="/earth" />}></Route>
         <Route
           path=":planetName"
-          element={
-            <PlanetPage isNavActive={isMobileNavActive ? true : false} />
-          }
+          element={<PlanetPage isNavActive={isMobileNavActive} />}
         ></Route>
       </Routes>
     </BrowserRouter>

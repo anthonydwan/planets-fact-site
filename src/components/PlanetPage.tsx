@@ -1,5 +1,7 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import data from '../data.json';
+import { PlanetPageProps } from '../types/PlanetPageProps';
+import { PlanetData } from '../types/PlanetData';
 
 const gallery = Object.values(
   import.meta.glob('../assets/*.{png,svg}', {
@@ -8,22 +10,18 @@ const gallery = Object.values(
   })
 );
 
-const PlanetPage = (props) => {
+const PlanetPage = (props: PlanetPageProps) => {
   const { planetName } = useParams();
   const [searchParams, setSearchParams] = useSearchParams({
     contentType: 'overview',
   });
   const contentType = searchParams.get('contentType');
 
-  const planetData = data.find(
+  const planetData: PlanetData | undefined = data.find(
     (planet) => planet.name.toLowerCase() === planetName?.toLowerCase()
   );
 
   // Determine which data to display based on the selected contentType
-  let content: string;
-  let source: string;
-  let imagePlanetPath: string;
-  let imageGeologyPath: string;
 
   const parseImagePath = (inputPath: string): string => {
     const prefixToReplace = './assets/';
@@ -32,28 +30,44 @@ const PlanetPage = (props) => {
     return convertedPath;
   };
 
-  const getData = () => {
-    if (contentType === 'overview') {
-      content = planetData?.overview.content;
-      source = planetData?.overview.source;
-      imagePlanetPath = parseImagePath(planetData?.images.planet);
-    } else if (contentType === 'structure') {
-      content = planetData?.structure.content;
-      source = planetData?.structure.source;
-      imagePlanetPath = parseImagePath(planetData?.images.internal);
-    } else if (contentType === 'geology') {
-      content = planetData?.geology.content;
-      source = planetData?.geology.source;
-      imagePlanetPath = parseImagePath(planetData?.images.planet);
-      imageGeologyPath = parseImagePath(planetData?.images.geology);
+  const getData = (): {
+    content: string;
+    source: string;
+    imagePlanetPath: string;
+    imageGeologyPath: string;
+  } => {
+    let content = 'not found';
+    let source = 'not found';
+    let imagePlanetPath = '';
+    let imageGeologyPath = '';
+
+    if (planetData) {
+      if (contentType === 'overview') {
+        content = planetData.overview.content;
+        source = planetData.overview.source;
+        imagePlanetPath = parseImagePath(planetData.images.planet);
+      } else if (contentType === 'structure') {
+        content = planetData.structure.content;
+        source = planetData.structure.source;
+        imagePlanetPath = parseImagePath(planetData.images.internal);
+      } else if (contentType === 'geology') {
+        content = planetData.geology.content;
+        source = planetData.geology.source;
+        imagePlanetPath = parseImagePath(planetData.images.planet);
+        imageGeologyPath = parseImagePath(planetData.images.geology);
+      }
     }
-    return content, source, imagePlanetPath, imageGeologyPath;
+    return { content, source, imagePlanetPath, imageGeologyPath };
   };
 
-  getData();
+  const { content, source, imagePlanetPath, imageGeologyPath } = getData();
 
-  const getClassPlanetName = (planetName: string): string => {
-    return `switch--${planetName}`;
+  const getClassPlanetName = (planetName: string | undefined): string => {
+    if (planetName) {
+      return `switch--${planetName}`;
+    } else {
+      return 'switch--earth';
+    }
   };
 
   const getSwitchButtonClass = (setType: string): string => {
@@ -118,7 +132,9 @@ const PlanetPage = (props) => {
         </section>
         <section className="textSwitchContainer">
           <section className="text">
-            <h1 className="text__heading">{planetData?.name}</h1>
+            <h1 className="text__heading">
+              {planetData ? planetData.name : 'earth'}
+            </h1>
             <p className="text__body">{content}</p>
             <div className="text__source">
               <div className="text__sourceBox">
