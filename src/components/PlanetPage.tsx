@@ -1,6 +1,5 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import data from '../data.json';
-import { useState } from 'react';
 
 const gallery = Object.values(
   import.meta.glob('../assets/*.{png,svg}', {
@@ -9,9 +8,12 @@ const gallery = Object.values(
   })
 );
 
-const PlanetPage = () => {
+const PlanetPage = (props) => {
   const { planetName } = useParams();
-  const [contentType, setContentType] = useState('overview');
+  const [searchParams, setSearchParams] = useSearchParams({
+    contentType: 'overview',
+  });
+  const contentType = searchParams.get('contentType');
 
   const planetData = data.find(
     (planet) => planet.name.toLowerCase() === planetName?.toLowerCase()
@@ -63,43 +65,123 @@ const PlanetPage = () => {
   };
 
   return (
-    <main>
-      <section className="switch">
+    <main data-visible={props.isNavActive ? 'true' : 'false'}>
+      <section className="switch switch--mobile">
         <button
           className={getSwitchButtonClass('overview')}
-          onClick={() => setContentType('overview')}
+          onClick={() =>
+            setSearchParams((prev) => {
+              prev.set('contentType', 'overview');
+              return prev;
+            })
+          }
         >
           Overview
         </button>
         <button
           className={getSwitchButtonClass('structure')}
-          onClick={() => setContentType('structure')}
+          onClick={() =>
+            setSearchParams((prev) => {
+              prev.set('contentType', 'structure');
+              return prev;
+            })
+          }
         >
           Structure
         </button>
         <button
           className={getSwitchButtonClass('geology')}
-          onClick={() => setContentType('geology')}
+          onClick={() =>
+            setSearchParams((prev) => {
+              prev.set('contentType', 'geology');
+              return prev;
+            })
+          }
         >
           Geology
         </button>
       </section>
-      <figure className="figure">
-        {gallery
-          .filter((image) => image === imagePlanetPath)
-          .map((image) => (
-            <img className="figure__image" src={`${image}`} />
-          ))}
-      </figure>
-      {/* {isGeology ? <img src={`${imageGeologyPath}`} /> : <p></p>} */}
-      <section className="text">
-        <h1 className="text__heading">{planetData?.name}</h1>
-        <p className="text__body">{content}</p>
-        <div className="text__source">
-          <p>
-            Source: <a href={source}>Wikipedia</a>
-          </p>
-        </div>
+      <section className="textSwitchFigureContainer">
+        <section className="figureContainer">
+          <figure className="figure">
+            {gallery
+              .filter((image) => image === imagePlanetPath)
+              .map((image) => (
+                <img className="figure__image" src={`${image}`} />
+              ))}
+            {contentType === 'geology' ? (
+              <img className="figure__geology" src={`${imageGeologyPath}`} />
+            ) : (
+              <></>
+            )}
+          </figure>
+        </section>
+        <section className="textSwitchContainer">
+          <section className="text">
+            <h1 className="text__heading">{planetData?.name}</h1>
+            <p className="text__body">{content}</p>
+            <div className="text__source">
+              <div className="text__sourceBox">
+                <p>
+                  Source:{' '}
+                  <a className="text__sourceLink" href={source}>
+                    Wikipedia
+                  </a>
+                </p>
+              </div>
+              <a className="text__sourceLink" href={source}>
+                <img
+                  className="text__sourceImg"
+                  src={'/src/assets/icon-source.svg'}
+                />
+              </a>
+            </div>
+          </section>
+          <section className="switch switch--nonMobile">
+            <button
+              className={getSwitchButtonClass('overview')}
+              onClick={() =>
+                setSearchParams((prev) => {
+                  prev.set('contentType', 'overview');
+                  return prev;
+                })
+              }
+            >
+              <span className="switch__buttonNumber" aria-hidden="true">
+                01
+              </span>
+              Overview
+            </button>
+            <button
+              className={getSwitchButtonClass('structure')}
+              onClick={() =>
+                setSearchParams((prev) => {
+                  prev.set('contentType', 'structure');
+                  return prev;
+                })
+              }
+            >
+              <span className="switch__buttonNumber" aria-hidden="true">
+                02
+              </span>
+              Internal Structure
+            </button>
+            <button
+              className={getSwitchButtonClass('geology')}
+              onClick={() =>
+                setSearchParams((prev) => {
+                  prev.set('contentType', 'geology');
+                  return prev;
+                })
+              }
+            >
+              <span className="switch__buttonNumber" aria-hidden="true">
+                03
+              </span>
+              Surface Geology
+            </button>
+          </section>
+        </section>
       </section>
 
       <section className="data">

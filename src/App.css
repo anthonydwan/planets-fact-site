@@ -83,6 +83,7 @@ table {
 #root {
   background-image: url('/src/assets/background-stars.svg');
   background-color: var(--clr-dark-navy);
+  min-height: 100vh;
 }
 
 h1 {
@@ -125,8 +126,8 @@ p {
 
 body {
   width: 100%;
-  height: auto;
   overflow-x: hidden;
+  min-height: 100%;
 }
 
 main {
@@ -141,28 +142,42 @@ main {
 
 header {
   height: 4.5rem;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    height: 10rem;
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    display: flex;
+    height: 5.3rem;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: var(--clr-dark-grey) 2px solid;
+  }
 }
 
 .header__title {
   padding-top: 1.625rem;
   padding-left: 1.5rem;
   font-size: 20px;
-  width: 130px;
-}
+  min-width: 180px;
 
-.primary-nav {
-  display: flex;
-}
+  /* tablet */
+  @media (min-width: 35em) {
+    font-size: 28px;
+    padding: 2rem 0;
+    margin: auto;
+    text-align: center;
+  }
 
-.primary-nav__link {
-  font-family: 'League Spartan';
-  font-size: 15px;
-  font-weight: var(--fw-bold);
-  letter-spacing: 1.364px;
-  color: var(--clr-white);
-  text-transform: uppercase;
-  padding: 1rem;
-  text-decoration: none;
+  /* desktop */
+  @media (min-width: 55em) {
+    padding: 0 2rem;
+    margin: 0;
+    font-size: 2.25rem;
+  }
 }
 
 .mobile-nav-toggle {
@@ -173,114 +188,94 @@ header {
   visibility: hidden;
 }
 
-@media (max-width: 35em) {
-  .primary-nav {
-    position: fixed;
-    inset: 4.5rem 0 0 0;
-    flex-direction: column;
-    background-color: var(--clr-dark-navy);
-    height: 100vh;
-    z-index: 1000;
-
-    transform: translateX(100%);
-    transition: transform 275ms ease-in;
+.lock-scroll {
+  /* mobile only */
+  @media (max-width: 35em) {
+    overflow: hidden;
   }
+}
 
-  .primary-nav[data-visible='true'] {
-    transform: translateX(0%);
-  }
-
-  .primary-nav__container {
+.textSwitchFigureContainer {
+  /* desktop only */
+  @media (min-width: 55em) {
     display: flex;
+    width: 100vw;
     align-items: center;
-    height: 3rem;
-    margin: 0 1.5rem;
-    border-bottom: 1px solid var(--clr-dark-grey);
   }
+}
 
-  .primary-nav__container:nth-last-child(1) {
-    border-bottom: none;
-  }
-
-  .primary-nav__circle {
-    display: inline-block;
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 50%;
-    vertical-align: middle;
-  }
-
-  .primary-nav--mercury {
-    background-color: #def4fc;
-  }
-
-  .primary-nav--venus {
-    background-color: var(--clr-venus);
-  }
-
-  .primary-nav--earth {
-    background-color: var(--clr-earth);
-  }
-
-  .primary-nav--mars {
-    background-color: var(--clr-mars);
-  }
-
-  .primary-nav--jupiter {
-    background-color: var(--clr-jupiter);
-  }
-
-  .primary-nav--saturn {
-    background-color: var(--clr-saturn);
-  }
-
-  .primary-nav--uranus {
-    background-color: var(--clr-uranus);
-  }
-
-  .primary-nav--neptune {
-    background-color: var(--clr-neptune);
-  }
-
-  .mobile-nav-toggle {
-    display: block;
-    position: absolute;
-    top: 2rem;
-    height: 17px;
-    right: 1.5rem;
-    width: 1.5rem;
-    background: url('./assets/icon-hamburger.svg');
-    background-repeat: no-repeat;
-    z-index: 9999;
-    transition: opacity 150ms ease-in;
-  }
-
-  .mobile-nav-toggle[data-visible='true'] {
-    opacity: 50%;
-  }
+.figureContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .figure {
   height: 375px;
+  width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+
+  /* desktop */
+  @media (min-width: 55em) {
+    height: 650px;
+    max-width: 600px;
+  }
 }
 
 .figure__image {
-  width: 55%;
+  width: 50%;
   height: auto;
-  display: block; /* scales down the image to 50% of its original height */
+  display: block;
+  /* tablet */
+  @media (min-width: 35em) {
+    width: 50%;
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    width: 60%;
+  }
+}
+
+.figure__geology {
+  position: absolute;
+  top: 55%;
+  z-index: 2;
+  width: 20%;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    width: 116px;
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    top: 62.5%;
+    width: 164px;
+  }
 }
 
 .data {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 13.5rem;
+  gap: 0.5rem;
   width: 100%;
   margin-top: 1.5rem;
   margin-bottom: 2rem;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    flex-direction: row;
+    padding: 0 1.5rem;
+    column-gap: 0.75rem;
+    min-height: 4rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 
 .data__group {
@@ -292,6 +287,19 @@ header {
   padding: 0 1.5rem;
   margin: 0 1.5rem;
   vertical-align: middle;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    min-height: 5.5rem;
+    width: 25%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    margin: 0;
+  }
+  /* desktop */
+  @media (min-width: 55em) {
+  }
 }
 
 .data__label {
@@ -299,32 +307,90 @@ header {
   font-size: 0.5rem;
   line-height: 1rem;
   letter-spacing: 0.727px;
+  @media (min-width: 35em) {
+    font-size: 0.75rem;
+  }
 }
 
 .data__stat {
   font-size: calc(var(--fs-600) / 2);
   font-weight: var(--fw-regular);
   letter-spacing: -0.75px;
+  @media (min-width: 35em) {
+    font-size: 1.5rem;
+  }
+}
+
+.textSwitchContainer {
+  /* tablet */
+  @media (min-width: 35em) {
+    display: flex;
+    align-items: center;
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    flex-direction: column;
+    width: 350px;
+    margin-right: 2.5rem;
+  }
 }
 
 .text {
   text-align: center;
   margin-right: 1.5rem;
   margin-left: 1.5rem;
+  margin: 0 1.5rem;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    text-align: left;
+    flex: 2;
+    margin-left: 2.5rem;
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    margin: 2rem 0;
+  }
 }
 
 .text__heading {
   font-size: 2.5rem;
+  /* tablet */
+  @media (min-width: 35em) {
+    font-size: 3rem;
+  }
 }
 
 .text__body {
   font-size: var(--fs-300);
   line-height: 22px;
   padding: 1rem 0;
+  height: 6.875rem;
 }
 
 .text__source {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding-top: 1rem;
+  opacity: 0.5;
+  font-weight: var(--fw-regular);
+  /* tablet */
+  @media (min-width: 35em) {
+    padding-top: 2rem;
+    justify-content: flex-start;
+  }
+}
+
+.text__sourceLink {
+  color: var(--clr-white);
+}
+
+.text__sourceImg {
+  margin-left: 0.25em;
+  color: var(--clr-white);
 }
 
 .switch {
@@ -333,11 +399,46 @@ header {
   padding: 0 1.5rem;
   width: 100%;
   height: 3.125rem;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    padding: 0;
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    gap: 1rem;
+  }
+}
+
+.switch--mobile {
+  /* tablet */
+  @media (min-width: 35em) {
+    display: none;
+  }
+}
+
+.switch--nonMobile {
+  display: none;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 9.5rem;
+    flex: 1.5;
+    margin-left: 0.5rem;
+    margin-right: 2.5rem;
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    margin: 0;
+  }
 }
 
 .switch__button {
-  /* width: 5rem; */
-
   font-family: 'League Spartan';
   font-size: 9px;
   font-weight: var(--fw-bold);
@@ -348,50 +449,258 @@ header {
   background-color: transparent;
 
   cursor: pointer;
-  transition: color 300ms ease-in-out, border-color 300ms ease-in-out;
+  transition: color 300ms ease-in-out, border 300ms ease-in-out,
+    background-color 300ms ease-in-out;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    height: 2.5rem;
+    padding-left: 1.25rem;
+    border: var(--clr-dark-grey) 1px solid;
+    text-align: left;
+  }
+}
+
+.switch__buttonNumber {
+  display: inline-block;
+  width: 1.5rem;
+  opacity: 0.5;
 }
 
 .switch--disabled {
-  border-bottom: 0.25rem solid transparent;
-  color: var(--clr-light-grey);
+  @media (max-width: 35em) {
+    border-bottom: 0.25rem solid transparent;
+  }
 }
 
 .switch--earth {
-  border-bottom: 0.25rem solid;
-  border-color: var(--clr-earth);
+  border-bottom: var(--clr-earth) 0.25rem solid;
+  /* tablet */
+  @media (min-width: 35em) {
+    border: none;
+    background-color: var(--clr-earth);
+  }
 }
 
 .switch--venus {
-  border-bottom: 0.25rem solid;
-  border-color: var(--clr-venus);
+  border-bottom: var(--clr-venus) 0.25rem solid;
+  /* tablet */
+  @media (min-width: 35em) {
+    border: none;
+    background-color: var(--clr-venus);
+  }
 }
 
 .switch--jupiter {
-  border-bottom: 0.25rem solid;
-  border-color: var(--clr-jupiter);
+  border-bottom: var(--clr-jupiter) 0.25rem solid;
+  /* tablet */
+  @media (min-width: 35em) {
+    border: none;
+    background-color: var(--clr-jupiter);
+  }
 }
 
 .switch--saturn {
-  border-bottom: 0.25rem solid;
-  border-color: var(--clr-saturn);
+  border-bottom: var(--clr-saturn) 0.25rem solid;
+  /* tablet */
+  @media (min-width: 35em) {
+    border: none;
+    background-color: var(--clr-saturn);
+  }
 }
 
 .switch--mars {
-  border-bottom: 0.25rem solid;
-  border-color: var(--clr-mars);
+  border-bottom: var(--clr-mars) 0.25rem solid;
+  /* tablet */
+  @media (min-width: 35em) {
+    border: none;
+    background-color: var(--clr-mars);
+  }
 }
 
 .switch--mercury {
-  border-bottom: 0.25rem solid;
-  border-color: var(--clr-mercury);
+  border-bottom: var(--clr-mercury) 0.25rem solid;
+  /* tablet */
+  @media (min-width: 35em) {
+    border: none;
+    background-color: var(--clr-mercury);
+  }
 }
 
 .switch--neptune {
-  border-bottom: 0.25rem solid;
-  border-color: var(--clr-neptune);
+  border-bottom: var(--clr-neptune) 0.25rem solid;
+  /* tablet */
+  @media (min-width: 35em) {
+    border: none;
+    background-color: var(--clr-neptune);
+  }
 }
 
 .switch--uranus {
-  border-bottom: 0.25rem solid;
-  border-color: var(--clr-uranus);
+  border-bottom: var(--clr-uranus) 0.25rem solid;
+  /* tablet */
+  @media (min-width: 35em) {
+    border: none;
+    background-color: var(--clr-uranus);
+  }
+}
+
+/* nav bar */
+.primary-nav {
+  border-top: var(--clr-dark-grey) 1px solid;
+
+  @media (max-width: 35em) {
+    position: fixed;
+    inset: 4.5rem 0 0 0;
+    flex-direction: column;
+    background-color: var(--clr-dark-navy);
+    height: 100vh;
+    z-index: 1000;
+
+    transform: translateX(100%);
+    transition: transform 275ms ease-in;
+  }
+
+  /* tablet */
+  @media (min-width: 35em) {
+    display: flex;
+    justify-content: space-around;
+    height: 3rem;
+    border-top: none;
+    border-bottom: var(--clr-dark-grey) 2px solid;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    border-bottom: none;
+  }
+}
+
+.primary-nav__link {
+  font-family: 'League Spartan';
+  font-size: 15px;
+  font-weight: var(--fw-bold);
+  letter-spacing: 1.364px;
+  color: var(--clr-white);
+  text-transform: uppercase;
+  padding: 1rem;
+  text-decoration: none;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    opacity: 50%;
+    font-size: var(--fs-300);
+    letter-spacing: 1px;
+    padding: 0;
+  }
+}
+
+.primary-nav[data-visible='true'] {
+  @media (max-width: 35em) {
+    transform: translateX(0%);
+  }
+}
+
+.primary-nav__container {
+  text-align: center;
+
+  /* tablet */
+  @media (min-width: 35em) {
+    width: 4rem;
+  }
+
+  @media (max-width: 35em) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3rem;
+    margin: 0 1.5rem;
+    border-bottom: 1px solid var(--clr-dark-grey);
+  }
+
+  /* desktop */
+  @media (min-width: 55em) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.primary-nav__container:nth-last-child(1) {
+  @media (max-width: 35em) {
+    border-bottom: none;
+  }
+}
+
+.primary-nav__circle {
+  @media (max-width: 35em) {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+}
+
+.primary-nav__img {
+  padding: 0.5rem;
+  /* tablet */
+  @media (min-width: 35em) {
+    display: none;
+  }
+}
+
+.mobile-nav-toggle {
+  @media (max-width: 35em) {
+    display: block;
+    position: absolute;
+    top: 2rem;
+    height: 17px;
+    right: 1.5rem;
+    width: 1.5rem;
+    background: url('./assets/icon-hamburger.svg');
+    background-repeat: no-repeat;
+    z-index: 9999;
+    transition: opacity 150ms ease-in;
+  }
+}
+
+.mobile-nav-toggle[data-visible='true'] {
+  @media (max-width: 35em) {
+    opacity: 50%;
+  }
+}
+
+.primary-nav--mercury {
+  background-color: #def4fc;
+}
+
+.primary-nav--venus {
+  background-color: var(--clr-venus);
+}
+
+.primary-nav--earth {
+  background-color: var(--clr-earth);
+}
+
+.primary-nav--mars {
+  background-color: var(--clr-mars);
+}
+
+.primary-nav--jupiter {
+  background-color: var(--clr-jupiter);
+}
+
+.primary-nav--saturn {
+  background-color: var(--clr-saturn);
+}
+
+.primary-nav--uranus {
+  background-color: var(--clr-uranus);
+}
+
+.primary-nav--neptune {
+  background-color: var(--clr-neptune);
 }

@@ -6,22 +6,9 @@ import {
   NavLink,
   Navigate,
 } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import PlanetPage from './components/PlanetPage';
-
-// // In React router 6.4
-// const router = createBrowserRouter(
-//   createRoutesFromElements(
-//     <Route path="/" element={<RootLayout />}>
-//       {/* this routes are relative to the parent path */}
-//       <Route index element={<Home />}>
-//         <Route path="structure" />
-//         <Route path="surface" />
-//       </Route>
-//     </Route>
-//   )
-// );
 
 const planets: string[] = [
   'mercury',
@@ -40,6 +27,19 @@ function App() {
   const toggleMobileNavButton = () => {
     setIsMobileNavActive(!isMobileNavActive);
   };
+
+  useEffect(() => {
+    if (isMobileNavActive) {
+      document.body.classList.add('lock-scroll');
+    } else {
+      document.body.classList.remove('lock-scroll');
+    }
+    // Clean up when component is unmounted
+    return () => {
+      document.body.classList.remove('lock-scroll');
+    };
+  }, [isMobileNavActive]);
+
   return (
     <BrowserRouter>
       <header>
@@ -64,12 +64,15 @@ function App() {
                 className="primary-nav__container"
                 onClick={toggleMobileNavButton}
               >
-                <span
-                  className={`primary-nav__circle primary-nav--${planet}`}
-                ></span>
-                <NavLink className="primary-nav__link" to={planet}>
-                  {planet}
-                </NavLink>
+                <div>
+                  <span
+                    className={`primary-nav__circle primary-nav--${planet}`}
+                  ></span>
+                  <NavLink className="primary-nav__link" to={planet}>
+                    {planet}
+                  </NavLink>
+                </div>
+                <img  className="primary-nav__img" src={'/src/assets/icon-chevron.svg'} />
               </li>
             ))}
           </ul>
@@ -77,12 +80,15 @@ function App() {
       </header>
       <Routes>
         <Route path="/" element={<Navigate to="/earth" />}></Route>
-        <Route path=":planetName" element={<PlanetPage />}></Route>
+        <Route
+          path=":planetName"
+          element={
+            <PlanetPage isNavActive={isMobileNavActive ? true : false} />
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
-
-  // <RouterProvider router={router} />;
 }
 
 export default App;

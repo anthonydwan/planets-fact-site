@@ -68,6 +68,10 @@ Global import of assets - the use of CRA made it more complicated
 
 Preserving the relative size of the planets 
 
+locking the scrolling when the nav bar is on. Since there is no html or body tag, and the state is controlling in child component, I needed to instead use `useEffect` hook 
+
+Leveraging the react router for state management instead of useState hook. This allows for the state to be saved in the URL which can be shared. 
+
 To see how you can add code snippets, see below:
 
 ```html
