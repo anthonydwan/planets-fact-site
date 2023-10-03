@@ -1,5 +1,6 @@
 import { useParams, useSearchParams } from 'react-router-dom';
-import data from '../data.json';
+// import data from '../data.json';
+import { useEffect, useState } from 'react';
 import { PlanetPageProps } from '../types/PlanetPageProps';
 import { PlanetData } from '../types/PlanetData';
 
@@ -12,16 +13,27 @@ const gallery = Object.values(
 
 const PlanetPage = (props: PlanetPageProps) => {
   const { planetName } = useParams();
+  const [data, setData] = useState<PlanetData[]>([]);
   const [searchParams, setSearchParams] = useSearchParams({
     contentType: 'overview',
   });
+
   const contentType = searchParams.get('contentType');
 
   const planetData: PlanetData | undefined = data.find(
     (planet) => planet.name.toLowerCase() === planetName?.toLowerCase()
   );
 
-  // Determine which data to display based on the selected contentType
+  useEffect(() => {
+    fetch('/data.json')
+      .then((response) => response.json())
+      .then((fetchedData) => {
+        setData(fetchedData);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
   const parseImagePath = (inputPath: string): string => {
     const prefixToReplace = './assets/';
@@ -30,6 +42,7 @@ const PlanetPage = (props: PlanetPageProps) => {
     return convertedPath;
   };
 
+  // Determine which data to display based on the selected contentType
   const getData = (): {
     content: string;
     source: string;
