@@ -4,13 +4,6 @@ import { useEffect, useState } from 'react';
 import { PlanetPageProps } from '../types/PlanetPageProps';
 import { PlanetData } from '../types/PlanetData';
 
-const gallery = Object.values(
-  import.meta.glob('../assets/*.{png,svg}', {
-    eager: true,
-    as: 'url',
-  })
-);
-
 const PlanetPage = (props: PlanetPageProps) => {
   const { planetName } = useParams();
   const [data, setData] = useState<PlanetData[]>([]);
@@ -35,13 +28,6 @@ const PlanetPage = (props: PlanetPageProps) => {
       });
   }, []);
 
-  const parseImagePath = (inputPath: string): string => {
-    const prefixToReplace = './assets/';
-    const replacementPrefix = '/src/assets/';
-    const convertedPath = inputPath.replace(prefixToReplace, replacementPrefix);
-    return convertedPath;
-  };
-
   // Determine which data to display based on the selected contentType
   const getData = (): {
     content: string;
@@ -58,16 +44,16 @@ const PlanetPage = (props: PlanetPageProps) => {
       if (contentType === 'overview') {
         content = planetData.overview.content;
         source = planetData.overview.source;
-        imagePlanetPath = parseImagePath(planetData.images.planet);
+        imagePlanetPath = planetData.images.planet;
       } else if (contentType === 'structure') {
         content = planetData.structure.content;
         source = planetData.structure.source;
-        imagePlanetPath = parseImagePath(planetData.images.internal);
+        imagePlanetPath = planetData.images.internal;
       } else if (contentType === 'geology') {
         content = planetData.geology.content;
         source = planetData.geology.source;
-        imagePlanetPath = parseImagePath(planetData.images.planet);
-        imageGeologyPath = parseImagePath(planetData.images.geology);
+        imagePlanetPath = planetData.images.planet;
+        imageGeologyPath = planetData.images.geology;
       }
     }
     return { content, source, imagePlanetPath, imageGeologyPath };
@@ -131,13 +117,12 @@ const PlanetPage = (props: PlanetPageProps) => {
       <section className="textSwitchFigureContainer">
         <section className="figureContainer">
           <figure className="figure">
-            {gallery
-              .filter((image) => image === imagePlanetPath)
-              .map((image) => (
-                <img className="figure__image" src={`${image}`} />
-              ))}
+            <img
+              className="figure__image"
+              src={imagePlanetPath.replace('./', '/')}
+            />
             {contentType === 'geology' ? (
-              <img className="figure__geology" src={`${imageGeologyPath}`} />
+              <img className="figure__geology" src={imageGeologyPath} />
             ) : (
               <></>
             )}
@@ -161,7 +146,7 @@ const PlanetPage = (props: PlanetPageProps) => {
               <a className="text__sourceLink" href={source}>
                 <img
                   className="text__sourceImg"
-                  src={'/src/assets/icon-source.svg'}
+                  src={'/assets/icon-source.svg'}
                 />
               </a>
             </div>

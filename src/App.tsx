@@ -74,7 +74,7 @@ function App() {
                 </div>
                 <img
                   className="primary-nav__img"
-                  src={'/src/assets/icon-chevron.svg'}
+                  src={'/assets/icon-chevron.svg'}
                 />
               </li>
             ))}
