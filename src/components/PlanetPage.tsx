@@ -5,22 +5,27 @@ import { PlanetPageProps } from '../types/PlanetPageProps';
 import { PlanetData } from '../types/PlanetData';
 
 const PlanetPage = (props: PlanetPageProps) => {
-  const { planetName } = useParams();
+  let { planetName } = useParams();
+  const defaultPlanetName = 'earth';
   const [data, setData] = useState<PlanetData[]>([]);
+  const [planetData, setPlanetData] = useState<PlanetData | undefined>(
+    undefined
+  );
+  const [content, setContent] = useState('not found');
+  const [wikiSource, setWikiSource] = useState('not found');
+  const [imagePlanetPath, setImagePlanetPath] = useState('');
+  const [imageGeologyPath, setImageGeologyPath] = useState('');
+
   const [searchParams, setSearchParams] = useSearchParams({
     contentType: 'overview',
   });
 
   const contentType = searchParams.get('contentType');
 
-  const planetData: PlanetData | undefined = data.find(
-    (planet) => planet.name.toLowerCase() === planetName?.toLowerCase()
-  );
-
   useEffect(() => {
-    fetch('/data.json')
+    fetch(import.meta.env.BASE_URL + 'data.json')
       .then((response) => response.json())
-      .then((fetchedData) => {
+      .then((fetchedData: PlanetData[]) => {
         setData(fetchedData);
       })
       .catch((error) => {
@@ -28,38 +33,52 @@ const PlanetPage = (props: PlanetPageProps) => {
       });
   }, []);
 
-  // Determine which data to display based on the selected contentType
-  const getData = (): {
-    content: string;
-    source: string;
-    imagePlanetPath: string;
-    imageGeologyPath: string;
-  } => {
-    let content = 'not found';
-    let source = 'not found';
-    let imagePlanetPath = '';
-    let imageGeologyPath = '';
+  useEffect(() => {
+    if (!planetName || !isValidPlanetName(planetName)) {
+      planetName = defaultPlanetName;
+    }
+    setPlanetData(
+      data.find(
+        (planet) => planet.name.toLowerCase() === planetName?.toLowerCase()
+      )
+    );
+  }, [planetName, defaultPlanetName, data]);
 
+  // Determine which data to display based on the selected contentType
+  useEffect(() => {
     if (planetData) {
       if (contentType === 'overview') {
-        content = planetData.overview.content;
-        source = planetData.overview.source;
-        imagePlanetPath = planetData.images.planet;
+        setContent(planetData.overview.content);
+        setWikiSource(planetData.overview.source);
+        setImagePlanetPath(planetData.images.planet);
       } else if (contentType === 'structure') {
-        content = planetData.structure.content;
-        source = planetData.structure.source;
-        imagePlanetPath = planetData.images.internal;
+        setContent(planetData.structure.content);
+        setWikiSource(planetData.structure.source);
+        setImagePlanetPath(planetData.images.internal);
       } else if (contentType === 'geology') {
-        content = planetData.geology.content;
-        source = planetData.geology.source;
-        imagePlanetPath = planetData.images.planet;
-        imageGeologyPath = planetData.images.geology;
+        setContent(planetData.geology.content);
+        setWikiSource(planetData.geology.source);
+        setImagePlanetPath(planetData.images.planet);
+        setImageGeologyPath(planetData.images.geology);
       }
     }
-    return { content, source, imagePlanetPath, imageGeologyPath };
-  };
+  }, [contentType, planetData]);
 
-  const { content, source, imagePlanetPath, imageGeologyPath } = getData();
+  const isValidPlanetName = (name: string | undefined): boolean => {
+    // You can implement your own validation logic here based on the valid planet names in your data
+    // For example, you can compare `name` with a list of valid planet names
+    const validPlanetNames = [
+      'earth',
+      'mars',
+      'venus',
+      'mercury',
+      'jupiter',
+      'neptune',
+      'saturn',
+      'uranus',
+    ];
+    return validPlanetNames.includes(name?.toLowerCase() || '');
+  };
 
   const getClassPlanetName = (planetName: string | undefined): string => {
     if (planetName) {
@@ -117,10 +136,7 @@ const PlanetPage = (props: PlanetPageProps) => {
       <section className="textSwitchFigureContainer">
         <section className="figureContainer">
           <figure className="figure">
-            <img
-              className="figure__image"
-              src={imagePlanetPath.replace('./', '/')}
-            />
+            <img className="figure__image" src={imagePlanetPath} />
             {contentType === 'geology' ? (
               <img className="figure__geology" src={imageGeologyPath} />
             ) : (
@@ -138,15 +154,15 @@ const PlanetPage = (props: PlanetPageProps) => {
               <div className="text__sourceBox">
                 <p>
                   Source:{' '}
-                  <a className="text__sourceLink" href={source}>
+                  <a className="text__sourceLink" href={wikiSource}>
                     Wikipedia
                   </a>
                 </p>
               </div>
-              <a className="text__sourceLink" href={source}>
+              <a className="text__sourceLink" href={wikiSource}>
                 <img
                   className="text__sourceImg"
-                  src={'/assets/icon-source.svg'}
+                  src={import.meta.env.BASE_URL + '/assets/icon-source.svg'}
                 />
               </a>
             </div>

@@ -7,7 +7,6 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-
 import PlanetPage from './components/PlanetPage';
 
 const planets: string[] = [
@@ -41,7 +40,7 @@ function App() {
   }, [isMobileNavActive]);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <header>
         <h1 className="header__title">the planets</h1>
         <button
@@ -74,7 +73,7 @@ function App() {
                 </div>
                 <img
                   className="primary-nav__img"
-                  src={'/assets/icon-chevron.svg'}
+                  src={import.meta.env.BASE_URL + '/assets/icon-chevron.svg'}
                 />
               </li>
             ))}
