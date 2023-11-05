@@ -106,6 +106,9 @@ h2 {
 h3 {
   font-family: 'League Spartan', Arial, Helvetica, sans-serif;
   color: var(--clr-white);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-bold);
+  color: var(--clr-white);
 }
 
 h4 {

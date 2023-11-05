@@ -63,7 +63,7 @@ function App() {
                 className="primary-nav__container"
                 onClick={toggleMobileNavButton}
               >
-                <div className= "primary-nav__div">
+                <div className="primary-nav__div">
                   <span
                     className={`primary-nav__circle primary-nav--${planet}`}
                   ></span>
@@ -74,6 +74,7 @@ function App() {
                 <img
                   className="primary-nav__img"
                   src={import.meta.env.BASE_URL + '/assets/icon-chevron.svg'}
+                  alt='go to'
                 />
               </li>
             ))}

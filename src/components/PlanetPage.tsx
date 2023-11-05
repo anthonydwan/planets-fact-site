@@ -136,9 +136,17 @@ const PlanetPage = (props: PlanetPageProps) => {
       <section className="textSwitchFigureContainer">
         <section className="figureContainer">
           <figure className="figure">
-            <img className="figure__image" src={imagePlanetPath} />
+            <img
+              className="figure__image"
+              src={imagePlanetPath}
+              alt={planetName + ' image'}
+            />
             {contentType === 'geology' ? (
-              <img className="figure__geology" src={imageGeologyPath} />
+              <img
+                className="figure__geology"
+                src={imageGeologyPath}
+                alt={planetName + ' geology'}
+              />
             ) : (
               <></>
             )}
@@ -163,6 +171,7 @@ const PlanetPage = (props: PlanetPageProps) => {
                 <img
                   className="text__sourceImg"
                   src={import.meta.env.BASE_URL + '/assets/icon-source.svg'}
+                  alt="information source"
                 />
               </a>
             </div>
@@ -216,19 +225,19 @@ const PlanetPage = (props: PlanetPageProps) => {
 
       <section className="data">
         <div className="data__group">
-          <h4 className="data__label">rotation time</h4>
+          <h3 className="data__label">rotation time</h3>
           <h2 className="data__stat">{planetData?.rotation}</h2>
         </div>
         <div className="data__group">
-          <h4 className="data__label">revolution time</h4>
+          <h3 className="data__label">revolution time</h3>
           <h2 className="data__stat">{planetData?.revolution}</h2>
         </div>
         <div className="data__group">
-          <h4 className="data__label">radius</h4>
+          <h3 className="data__label">radius</h3>
           <h2 className="data__stat">{planetData?.radius}</h2>
         </div>
         <div className="data__group">
-          <h4 className="data__label">average temp.</h4>
+          <h3 className="data__label">average temp.</h3>
           <h2 className="data__stat">{planetData?.temperature}</h2>
         </div>
       </section>
