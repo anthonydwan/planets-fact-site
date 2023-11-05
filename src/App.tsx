@@ -63,7 +63,7 @@ function App() {
                 className="primary-nav__container"
                 onClick={toggleMobileNavButton}
               >
-                <div>
+                <div className= "primary-nav__div">
                   <span
                     className={`primary-nav__circle primary-nav--${planet}`}
                   ></span>

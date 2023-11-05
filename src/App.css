@@ -578,15 +578,24 @@ header {
   }
 }
 
+.primary-nav__div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
 .primary-nav__link {
   font-family: 'League Spartan';
   font-size: 15px;
   font-weight: var(--fw-bold);
+  text-align: start;
   letter-spacing: 1.364px;
   color: var(--clr-white);
   text-transform: uppercase;
   padding: 1rem;
   text-decoration: none;
+  width: 100%;
 
   /* tablet */
   @media (min-width: 35em) {
