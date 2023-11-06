@@ -231,7 +231,7 @@ header {
 .figure__image {
   width: 50%;
   height: auto;
-  display: block;
+
   /* tablet */
   @media (min-width: 35em) {
     width: 50%;
